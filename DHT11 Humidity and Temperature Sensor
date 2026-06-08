@@ -1,0 +1,80 @@
+ /*
+
+ In Arduino IDE:
+step 1:
+Sketch → Include Library → Manage Libraries
+Step 2: Search
+
+Type:
+
+DHT sensor library
+Step 3: Install These 2 Libraries
+
+Install:
+
+DHT sensor library by Adafruit
+Adafruit Unified Sensor
+
+Both are required
+
+Connections (DHT11 → Arduino UNO)
+
+
+| DHT11 Pin | Arduino Pin |
+| --------- | ----------- |
+| VCC       | 5V          |
+| GND       | GND         |
+| DATA      | D2          |
+
+
+
+DHT11 Humidity and Temperature Sensor Code
+ Arduino UNO*/
+
+
+
+#include <DHT.h>
+// Define sensor pin
+#define DHTPIN 2
+// Define sensor type
+#define DHTTYPE DHT11
+
+// Create DHT object
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  
+  // Start DHT sensor
+  dht.begin();
+
+  Serial.println("DHT11 Sensor Reading...");
+}
+
+void loop() {
+
+  // Read humidity
+  float humidity = dht.readHumidity();
+
+  // Read temperature in Celsius
+  float temperature = dht.readTemperature();
+
+  // Check if reading failed
+  if (isnan(humidity) || isnan(temperature)) {
+    Serial.println("Failed to read from DHT11 sensor!");
+    return;
+  }
+
+  // Print values
+  Serial.print("Humidity: ");
+  Serial.print(humidity);
+  Serial.println(" %");
+
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" °C");
+
+  Serial.println("----------------------");
+
+  delay(2000);
+}

@@ -1,0 +1,33 @@
+/* * CONNECTIONS:
+ * Sensor VCC -> 5V
+ * Sensor GND -> GND
+ * Sensor OUT1 -> Pin 2
+ * Sensor OUT2 -> Pin 3
+ * Sensor OUT3 -> Pin 4
+ * Sensor OUT4 -> Pin 5
+ */
+
+const int touchPins[] = {2, 3, 4, 5}; 
+
+void setup() {
+  Serial.begin(9600);
+  
+  // Configure all 4 pins as inputs
+  for (int i = 0; i < 4; i++) {
+    pinMode(touchPins[i], INPUT);
+  }
+  
+  Serial.println("4-Button Touch Module Initialized.");
+}
+
+void loop() {
+  for (int i = 0; i < 4; i++) {
+    // Read the current state of each button
+    if (digitalRead(touchPins[i]) == HIGH) {
+      Serial.print("Button ");
+      Serial.print(i + 1);
+      Serial.println(" is touched!");
+    }
+  }
+  delay(100); // Small delay for stability
+}

@@ -1,0 +1,53 @@
+/*
+ * =========================================================
+ * WIRING INSTRUCTIONS (KY-037 to Arduino Uno)
+ * =========================================================
+ * KY-037 Pin    |  Arduino Uno Pin  | Description
+ * --------------|-------------------|----------------------
+ * A0 (Analog)   |  A0               | Real-time voltage of the microphone
+ * G  (Ground)   |  GND              | Ground connection
+ * +  (Power)    |  5V               | Power supply (can also be 3.3V)
+ * D0 (Digital)  |  D2               | HIGH/LOW output based on threshold
+ * * =========================================================
+ * LIBRARY INSTRUCTIONS
+ * =========================================================
+ * NO EXTERNAL LIBRARY IS NEEDED. 
+ * The KY-037 outputs standard analog and digital voltage signals. 
+ * You only need the built-in analogRead() and digitalRead() 
+ * functions that come natively with the Arduino IDE.
+ * =========================================================
+ */
+
+// Define the pins connected to the sensor
+const int analogPin = A0;  
+const int digitalPin = 2;  
+
+// Variables to store the sensor readings
+int analogValue = 0;
+int digitalValue = 0;
+
+void setup() {
+  // Initialize serial communication at 9600 bits per second
+  Serial.begin(9600);
+  
+  // Configure the digital pin as an input
+  pinMode(digitalPin, INPUT);
+  
+  // Note: Analog pins (like A0) default to inputs automatically, 
+  // so no pinMode() setup is strictly required for them.
+}
+
+void loop() {
+  // Read the signals from the sensor
+  analogValue = analogRead(analogPin);
+  digitalValue = digitalRead(digitalPin);
+  
+  // Print the results to the Serial Monitor
+  Serial.print("Analog Reading: ");
+  Serial.print(analogValue);
+  Serial.print(" \t Digital Reading: ");
+  Serial.println(digitalValue);
+  
+  // A small delay makes the Serial Monitor easier to read
+  delay(100);
+}

@@ -26,7 +26,10 @@ Connections (DHT11 → Arduino UNO)
 | GND       | GND         |
 | DATA      | D2          |
 
+Add Resistor
+Connect:
 
+10kΩ resistor between Pin 1 (VCC) and Pin 2 (DATA)
 
 DHT11 Humidity and Temperature Sensor Code
  Arduino UNO*/

@@ -1,0 +1,28 @@
+//connection :
+| Arduino Uno Pin | ULN2003 Driver Pin | Wire Color (Typical) |
+| --------------- | ------------------ | -------------------- | 
+| Digital Pin 8   | IN1                | Blue                 | 
+| Digital Pin 9   | IN2                | Pink                 |
+| Digital Pin 10  | IN3                | Yellow               | 
+| Digital Pin 11  | IN4                | Orange               |
+| 5V              | VCC                | Red                  | 
+| GND             | GND                | Black                | 
+
+//coding:
+#include <Stepper.h>
+
+const int stepsPerRevolution = 2048;
+
+Stepper motor(stepsPerRevolution, 8, 10, 9, 11);
+
+void setup() {
+  motor.setSpeed(10);
+}
+
+void loop() {
+  motor.step(2048);   // Clockwise
+  delay(1000);
+
+  motor.step(-2048);  // Counter-clockwise
+  delay(1000);
+}

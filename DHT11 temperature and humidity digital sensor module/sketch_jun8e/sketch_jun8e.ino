@@ -1,42 +1,35 @@
-#include <Wire.h>
-#include <MPU6050.h>
+#include <DHT.h>
 
-MPU6050 mpu;
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
   Serial.begin(9600);
-  Wire.begin();
+  dht.begin();
 
-  mpu.initialize();
-
-  if (mpu.testConnection()) {
-    Serial.println("MPU6050 Connected!");
-  } else {
-    Serial.println("MPU6050 Connection Failed!");
-  }
+  Serial.println("DHT11 Sensor Started");
 }
 
 void loop() {
-  int16_t ax, ay, az;
-  int16_t gx, gy, gz;
+  delay(2000);
 
-  mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+  float humidity = dht.readHumidity();
+  float temperature = dht.readTemperature();
 
-  Serial.print("Accel X: ");
-  Serial.print(ax);
-  Serial.print(" Y: ");
-  Serial.print(ay);
-  Serial.print(" Z: ");
-  Serial.println(az);
+  if (isnan(humidity) || isnan(temperature)) {
+    Serial.println("Failed to read from DHT11 sensor!");
+    return;
+  }
 
-  Serial.print("Gyro X: ");
-  Serial.print(gx);
-  Serial.print(" Y: ");
-  Serial.print(gy);
-  Serial.print(" Z: ");
-  Serial.println(gz);
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" °C");
 
-  Serial.println("----------------------");
+  Serial.print("Humidity: ");
+  Serial.print(humidity);
+  Serial.println(" %");
 
-  delay(500);
+  Serial.println("-------------------");
 }

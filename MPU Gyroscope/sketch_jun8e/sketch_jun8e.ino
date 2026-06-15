@@ -1,43 +1,18 @@
-// TCS34725 RGB Color Sensor with Arduino UNO
-
 #include <Wire.h>
-#include "Adafruit_TCS34725.h"
-
-// Create sensor object
-Adafruit_TCS34725 tcs = Adafruit_TCS34725(
-  TCS34725_INTEGRATIONTIME_50MS,
-  TCS34725_GAIN_4X
-);
 
 void setup() {
+  Wire.begin();
   Serial.begin(9600);
 
-  if (tcs.begin()) {
-    Serial.println("TCS34725 Found");
+  Wire.beginTransmission(0x68);
+  byte error = Wire.endTransmission();
+
+  if (error == 0) {
+    Serial.println("MPU6050 Found!");
   } else {
-    Serial.println("No TCS34725 found");
-    while (1);
+    Serial.println("MPU6050 Not Found!");
   }
 }
 
 void loop() {
-
-  uint16_t r, g, b, c;
-
-  // Read RGB values
-  tcs.getRawData(&r, &g, &b, &c);
-
-  Serial.print("Red: ");
-  Serial.print(r);
-
-  Serial.print("  Green: ");
-  Serial.print(g);
-
-  Serial.print("  Blue: ");
-  Serial.print(b);
-
-  Serial.print("  Clear: ");
-  Serial.println(c);
-
-  delay(1000);
 }

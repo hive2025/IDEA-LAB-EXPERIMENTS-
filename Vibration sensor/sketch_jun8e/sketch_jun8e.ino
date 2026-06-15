@@ -1,19 +1,27 @@
-#define SOIL_PIN A0
+#define VIBRATION_PIN 2
+#define LED_PIN 13
 
 void setup() {
   Serial.begin(9600);
+
+  pinMode(VIBRATION_PIN, INPUT);
+  pinMode(LED_PIN, OUTPUT);
+
+  Serial.println("Vibration Sensor Ready");
 }
 
 void loop() {
 
-  int value = analogRead(SOIL_PIN);
+  int vibration = digitalRead(VIBRATION_PIN);
 
-  int moisturePercent = map(value, 1023, 300, 0, 100);
-  moisturePercent = constrain(moisturePercent, 0, 100);
+  if (vibration == HIGH) {
+    Serial.println("Vibration Detected!");
+    digitalWrite(LED_PIN, HIGH);
+  } 
+  else {
+    Serial.println("No Vibration");
+    digitalWrite(LED_PIN, LOW);
+  }
 
-  Serial.print("Moisture: ");
-  Serial.print(moisturePercent);
-  Serial.println("%");
-
-  delay(500);
+  delay(300);
 }

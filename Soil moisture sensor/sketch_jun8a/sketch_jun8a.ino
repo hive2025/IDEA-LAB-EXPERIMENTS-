@@ -8,12 +8,22 @@ void loop() {
 
   int value = analogRead(SOIL_PIN);
 
-  int moisture = map(value, 1023, 300, 0, 100);
-  moisture = constrain(moisture, 0, 100);
+  Serial.print("Soil Moisture Value: ");
+  Serial.print(value);
+  Serial.print(" -> ");
 
-  Serial.print("Moisture: ");
-  Serial.print(moisture);
-  Serial.println("%");
+  if (value >= 950) {
+    Serial.println("Dry Soil (No Water)");
+  }
+  else if (value >= 700) {
+    Serial.println("Slight Moisture");
+  }
+  else if (value >= 400) {
+    Serial.println("Medium Wet");
+  }
+  else {
+    Serial.println("Very Wet Soil");
+  }
 
   delay(500);
 }

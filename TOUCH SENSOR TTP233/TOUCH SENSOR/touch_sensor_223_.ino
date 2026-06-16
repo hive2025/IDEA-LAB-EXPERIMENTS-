@@ -1,20 +1,27 @@
-const int TOUCH_PIN = 2;     // Connect TTP223 SIG to Digital Pin 2
-const int LED_PIN   = 13;    // Uses the Arduino Uno's built-in LED
+// Define the pins for the 4 touch sensors
+const int sensorPins[] = {2, 3, 4, 5}; 
 
 void setup() {
-  Serial.begin(9600);        // 9600 baud rate is standard for Uno
-  pinMode(TOUCH_PIN, INPUT);
-  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);
+  
+  // Set all sensor pins as input
+  for (int i = 0; i < 4; i++) {
+    pinMode(sensorPins[i], INPUT);
+  }
+  
+  Serial.println("System Ready. Touch a sensor to see the number.");
 }
 
 void loop() {
-  int touchState = digitalRead(TOUCH_PIN);
-
-  if (touchState == HIGH) {
-    digitalWrite(LED_PIN, HIGH);   // Lights up the built-in "L" LED on the Uno
-    Serial.println("Touched!");
-  } else {
-    digitalWrite(LED_PIN, LOW);
+  for (int i = 0; i < 4; i++) {
+    // Read the current state of the sensor
+    if (digitalRead(sensorPins[i]) == HIGH) {
+      // Print the index + 1 to correspond to 1, 2, 3, 4
+      Serial.print("Detected touch at place: ");
+      Serial.println(i + 1);
+      
+      // Small delay to prevent multiple prints for one touch
+      delay(300); 
+    }
   }
-  delay(50); 
 }

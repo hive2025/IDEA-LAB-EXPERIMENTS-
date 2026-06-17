@@ -1,48 +1,37 @@
 /*
  * WIRING CONNECTIONS:
- * 1. Touch Sensor (TTP223)
+ * Touch Sensor (TTP223) to Arduino Uno:
  * - VCC -> 5V
  * - GND -> GND
- * - OUT -> Pin 2
- * * 2. I2C LCD Display (16x2)
- * - VCC -> 5V
- * - GND -> GND
- * - SDA -> A4 (On Arduino Uno)
- * - SCL -> A5 (On Arduino Uno)
- *
- * LIBRARY INSTALLATION:
- * 1. Open Arduino IDE.
- * 2. Go to 'Sketch' -> 'Include Library' -> 'Manage Libraries...'.
- * 3. Search for "LiquidCrystal I2C".
- * 4. Install the version by Frank de Brabander.
+ * - OUT/SIG -> Pin 2
  */
 
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
-
-// Set the LCD address to 0x27 or 0x3F (run I2C scanner if blank)
-LiquidCrystal_I2C lcd(0x27, 16, 2);
-
+// Define the pin connected to the touch sensor
 const int touchPin = 2;
 
 void setup() {
+  // Initialize serial communication at 9600 baud rate
+  Serial.begin(9600);
+  
+  // Configure the touch pin as an input
   pinMode(touchPin, INPUT);
   
-  lcd.init();
-  lcd.backlight();
-  
-  lcd.setCursor(0, 0);
-  lcd.print("Sensor Status:");
+  // Print an initial status message
+  Serial.println("Sensor Status: Initialized");
+  Serial.println("--------------------------");
 }
 
 void loop() {
+  // Read the current state of the touch sensor
   int touchState = digitalRead(touchPin);
 
-  lcd.setCursor(0, 1);
+  // Output the status to the Serial Monitor based on the reading
   if (touchState == HIGH) {
-    lcd.print("Touched!        ");
+    Serial.println("Touched!");
   } else {
-    lcd.print("Not Touched     ");
+    Serial.println("Not Touched");
   }
+  
+  // A small delay makes the output easier to read
   delay(200);
 }
